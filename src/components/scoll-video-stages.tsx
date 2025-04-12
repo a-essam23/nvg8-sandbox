@@ -8,7 +8,7 @@ interface VideoStage {
   src: string;
 }
 
-interface ScrollVideoStagesTimelineProps {
+interface ScrollVideoStagesProps {
   stages: VideoStage[];
   className?: string;
   pixelsPerSecond?: number;
@@ -16,7 +16,7 @@ interface ScrollVideoStagesTimelineProps {
 
 gsap.registerPlugin(ScrollTrigger);
 
-const ScrollVideoStagesTimeline: React.FC<ScrollVideoStagesTimelineProps> = ({
+const ScrollVideoStages: React.FC<ScrollVideoStagesProps> = ({
   stages,
   className = "",
   pixelsPerSecond = 300,
@@ -125,4 +125,4 @@ const ScrollVideoStagesTimeline: React.FC<ScrollVideoStagesTimelineProps> = ({
   );
 };
 
-export default ScrollVideoStagesTimeline;
+export default ScrollVideoStages;

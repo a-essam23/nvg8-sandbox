@@ -1,4 +1,3 @@
-import ScrollVideoStagesTimeline from "@components/scoll-video-stages-timeline";
 import NavigatorsSectionHeader from "./navigators-section-header";
 import ScrollVideoStages, { VideoStage } from "@components/scroll-video-stages";
 
@@ -16,7 +15,7 @@ const NavigatorsSection = () => {
   return (
     <section className="flex flex-col h-full justify-center items-center w-full">
       {/* <NavigatorsSectionHeader /> */}
-      <ScrollVideoStagesTimeline stages={stages} />
+      <ScrollVideoStages stages={stages} />
     </section>
   );
 };
