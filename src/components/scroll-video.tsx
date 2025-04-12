@@ -38,11 +38,13 @@ const ScrollVideo: React.FC<ScrollVideoProps> = ({
       requestAnimationFrame(() => {
         ScrollTrigger.create({
           trigger: container,
-          end: `bottom bottom`,
+          start: "top top",
+          end: `+=${scrollLength}`,
           scrub: true,
+          pin: true,
           onUpdate: (self) => {
+            console.log("Scroll update", video.duration);
             if (video.duration) {
-              console.log(self.progress, self.progress * video.duration);
               video.currentTime = self.progress * video.duration;
             }
           },
@@ -69,7 +71,7 @@ const ScrollVideo: React.FC<ScrollVideoProps> = ({
     <section
       ref={containerRef}
       style={{ height: sectionHeight }}
-      className="relative w-full min-h-screen"
+      className="relative w-full"
     >
       <video
         ref={videoRef}
