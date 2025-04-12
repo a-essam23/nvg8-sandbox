@@ -4,7 +4,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useEffect, useRef, useState } from "react";
 
-interface VideoStage {
+export interface VideoStage {
   src: string;
 }
 
@@ -19,7 +19,7 @@ gsap.registerPlugin(ScrollTrigger);
 const ScrollVideoStages: React.FC<ScrollVideoStagesProps> = ({
   stages,
   className = "",
-  pixelsPerSecond = 300,
+  pixelsPerSecond = 150,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<HTMLVideoElement[]>([]);
@@ -59,7 +59,6 @@ const ScrollVideoStages: React.FC<ScrollVideoStagesProps> = ({
       totalDuration * pixelsPerSecond * durations.length +
       containerRef.current.offsetHeight;
 
-    console.log(scrollLength);
     setSectionHeight(scrollLength + "px");
 
     let cumulativeTime = 0;
@@ -73,9 +72,7 @@ const ScrollVideoStages: React.FC<ScrollVideoStagesProps> = ({
       return ScrollTrigger.create({
         trigger: containerRef.current,
         start: "top top",
-        end: `+=${scrollLength}`,
-        scrub: true,
-        markers: true,
+        end: `+=${scrollLength - (containerRef?.current?.offsetHeight || 0)}`,
         onUpdate: (self) => {
           const video = videoRefs.current[index];
           if (!video || !video.duration) return;
