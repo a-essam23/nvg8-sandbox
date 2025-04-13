@@ -4,17 +4,19 @@ const NavigatorsSection = () => {
   const stages: VideoStage[] = [
     {
       src: "videos/NAVIGATE_4K_S10-scrolly@sm.mp4",
-      // loopSrc: "videos/NAVIGATE_4K_S10_loop@sm.mp4",
+      loopSrc: "videos/NAVIGATE_4K_S10_loop@sm.mp4",
     },
     {
       src: "videos/NAVIGATE_4K_S20-scrolly@sm.mp4",
-      // loopSrc: "videos/NAVIGATE_4K_S10_loop@sm.mp4",
+      loopSrc: "videos/NAVIGATE_4K_S20_loop@sm.mp4",
     },
     {
       src: "videos/NAVIGATE_4K_S25-scrolly@sm.mp4",
+      loopSrc: "videos/NAVIGATE_4K_S25_loop@sm.mp4",
     },
     {
       src: "videos/NAVIGATE_4K_S30-scrolly@sm.mp4",
+      loopSrc: "videos/NAVIGATE_4K_S30_loop@sm.mp4",
     },
   ];
   return (

@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 export interface VideoStage {
   src: string;
+  loopSrc?: string;
 }
 
 interface ScrollVideoStagesProps {
@@ -82,10 +83,23 @@ const ScrollVideoStages: React.FC<ScrollVideoStagesProps> = ({
             const videoProgress =
               (progress - startProgress) / (endProgress - startProgress);
             video.currentTime = videoProgress * video.duration;
-            video.style.opacity = "1";
+            console.log("videoProgress", videoProgress);
+            // Get the loop video element if it exists
+            const loopVideo = video.nextElementSibling as HTMLVideoElement;
+
+            if (videoProgress <= 0.1 && stages[index].loopSrc && loopVideo) {
+              video.style.opacity = "0";
+              loopVideo.style.opacity = "1";
+            } else {
+              video.style.opacity = "1";
+              if (loopVideo) loopVideo.style.opacity = "0";
+            }
           } else {
             video.style.opacity = "0";
             video.currentTime = progress < startProgress ? 0 : video.duration;
+            // Hide loop video when outside stage bounds
+            const loopVideo = video.nextElementSibling as HTMLVideoElement;
+            if (loopVideo) loopVideo.style.opacity = "0";
           }
         },
       });
@@ -104,18 +118,31 @@ const ScrollVideoStages: React.FC<ScrollVideoStagesProps> = ({
     >
       <div className="sticky inset-0 w-full h-screen">
         {stages.map((stage, index) => (
-          <video
-            key={index}
-            ref={(el) => {
-              if (el) videoRefs.current[index] = el;
-            }}
-            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${className}`}
-            playsInline
-            muted
-            src={stage.src}
-            preload="metadata"
-            style={{ opacity: index === 0 ? 1 : 0 }}
-          />
+          <div key={index} className="absolute inset-0">
+            <video
+              ref={(el) => {
+                if (el) videoRefs.current[index] = el;
+              }}
+              className={`absolute inset-0 w-full h-full object-cover ${className}`}
+              playsInline
+              muted
+              src={stage.src}
+              preload="metadata"
+              style={{ opacity: index === 0 ? 1 : 0 }}
+            />
+            {stage.loopSrc && (
+              <video
+                className={`absolute inset-0 w-full h-full object-cover ${className}`}
+                playsInline
+                muted
+                loop
+                autoPlay
+                src={stage.loopSrc}
+                preload="metadata"
+                style={{ opacity: index === 0 ? 1 : 0 }}
+              />
+            )}
+          </div>
         ))}
       </div>
     </section>

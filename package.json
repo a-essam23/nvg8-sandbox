@@ -9,24 +9,28 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@heroui/react": "^2.7.6",
     "@rive-app/react-canvas": "^4.18.6",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.6.5",
     "gsap": "^3.12.7",
     "next": "15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.2.0"
+    "tailwind-merge": "^3.2.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@tailwindcss/postcss": "^4",
-    "@types/gsap": "^3.0.0",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.21",
     "eslint": "^9",
     "eslint-config-next": "15.2.4",
-    "tailwindcss": "^4",
+    "postcss": "^8.5.3",
+    "tailwindcss": "3",
     "typescript": "^5"
   }
 }
