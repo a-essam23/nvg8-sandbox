@@ -13,7 +13,6 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ScrollVideo: React.FC<ScrollVideoProps> = ({
   src,
-  alt,
   percentagePerSecond = 100,
   className = "",
 }) => {
@@ -65,6 +64,7 @@ const ScrollVideo: React.FC<ScrollVideoProps> = ({
       video.removeEventListener("loadedmetadata", handleLoadedMetadata);
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
+    // eslint-disable-next-line
   }, []);
 
   return (

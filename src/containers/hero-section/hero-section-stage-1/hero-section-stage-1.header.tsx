@@ -3,45 +3,47 @@ import { useEffect, useRef } from "react";
 import { Button } from "@heroui/react";
 import Image from "next/image";
 import { useHeroStore } from "@/stores/hero-store";
+import gsap from "gsap";
 
-interface HeroSectionStageOneHeaderProps {}
-
-const HeroSectionStageOneHeader: React.FC<
-  HeroSectionStageOneHeaderProps
-> = () => {
+const HeroSectionStageOneHeader: React.FC = () => {
   const { timeline } = useHeroStore();
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const buttonRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    timeline
-      ?.from(titleRef.current, {
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: "top center",
-          end: "+=35%",
-          scrub: true,
-        },
-      })
-      .from(subtitleRef.current, {
-        scrollTrigger: {
-          trigger: subtitleRef.current,
-          start: "top center",
-          end: "+=35%",
-          scrub: true,
-        },
-      })
-      .to([titleRef.current, subtitleRef.current, buttonRef.current], {
+    if (!timeline) return;
+
+    // Create separate entrance timeline
+    const entranceTl = gsap.timeline({ delay: 0.5 });
+    entranceTl.fromTo(
+      [titleRef.current, subtitleRef.current, buttonRef.current],
+      {
+        y: 200,
+        opacity: 0,
+      },
+      {
+        y: 0,
+        opacity: 1,
+        duration: 1,
+        stagger: 0.2,
+        ease: "sine",
+      }
+    );
+
+    // Scroll-triggered fade out
+    timeline.to(
+      [titleRef.current, subtitleRef.current, buttonRef.current],
+      {
         y: -100,
         opacity: 0,
-        scrollTrigger: {
-          trigger: titleRef.current,
-          start: "top top",
-          end: "+=100%",
-          scrub: true,
-        },
-      });
+      },
+      "stage1Start+=0.05"
+    );
+
+    return () => {
+      entranceTl.kill();
+    };
   }, [timeline]);
 
   return (

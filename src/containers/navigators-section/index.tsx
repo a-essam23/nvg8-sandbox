@@ -1,6 +1,11 @@
 import ScrollVideoStages, { VideoStage } from "@components/scoll-video-stages";
+import NavigatorsSectionHeader from "./navigators-section-header";
 
-const NavigatorsSection = () => {
+interface NavigatorsSectionProps {
+  sandbox?: boolean;
+}
+
+const NavigatorsSection: React.FC<NavigatorsSectionProps> = ({ sandbox }) => {
   const stages: VideoStage[] = [
     {
       src: "videos/NAVIGATE_4K_S10-scrolly@sm.mp4",
@@ -21,8 +26,7 @@ const NavigatorsSection = () => {
   ];
   return (
     <section className="flex flex-col h-full justify-center items-center w-full">
-      {/* <NavigatorsSectionHeader /> */}
-      {/* <ScrollVideoStages stages={stages} /> */}
+      {sandbox && <NavigatorsSectionHeader />}
       <ScrollVideoStages stages={stages} />
     </section>
   );

@@ -1,11 +1,15 @@
+import RiveDisplay from "@components/rive-display";
 import HeroSection from "@containers/hero-section";
 import NavigatorsSection from "@containers/navigators-section";
 
-export default function Home() {
+const SandboxPage = () => {
   return (
     <div className="flex flex-col">
+      <RiveDisplay />
       <HeroSection />
-      <NavigatorsSection />
+      <NavigatorsSection sandbox />
     </div>
   );
-}
+};
+
+export default SandboxPage;

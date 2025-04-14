@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { useHeroStore } from "@/stores/hero-store";
 
@@ -10,31 +10,25 @@ interface HeroSectionStageOneIconsProps {
 const HeroSectionStageOneIcons: React.FC<
   HeroSectionStageOneIconsProps
 > = ({}) => {
-  const { timeline, iconGroups, setIconGroupRefs, selectedIconGroup } =
-    useHeroStore();
+  const { timeline, iconGroups, selectedIconGroup } = useHeroStore();
   const containerRef = useRef<HTMLDivElement>(null);
   const iconRefs = useRef<(HTMLDivElement | null)[][]>([[], []]);
-
-  useEffect(() => {
-    // Update refs in store
-    setIconGroupRefs(
-      selectedIconGroup,
-      iconRefs.current[selectedIconGroup].map((el) => ({ current: el }))
-    );
-  }, [selectedIconGroup, setIconGroupRefs]);
+  const loopTlRef = useRef<gsap.core.Timeline>(null);
 
   useEffect(() => {
     const currentRefs = iconRefs.current[selectedIconGroup];
     if (!currentRefs?.length) return;
 
-    const loopTl = gsap.timeline({
-      repeat: -1,
-      onRepeat: () => {
-        // Switch groups after each complete loop
-        const nextGroup = (selectedIconGroup + 1) % iconGroups.length;
-        useHeroStore.getState().setSelectedIconGroup(nextGroup);
-      },
-    });
+    if (!loopTlRef.current)
+      loopTlRef.current = gsap.timeline({
+        repeat: -1,
+        onRepeat: () => {
+          // Switch groups after each complete loop
+          const nextGroup = (selectedIconGroup + 1) % iconGroups.length;
+          useHeroStore.getState().setSelectedIconGroup(nextGroup);
+        },
+      });
+    const loopTl = loopTlRef.current;
     const stagger = 0.1;
     const duration = 0.2;
     const ease: gsap.EaseString = "power1.inOut";
@@ -84,47 +78,48 @@ const HeroSectionStageOneIcons: React.FC<
         },
         `-=${firstIconDelay}`
       );
-
-    // Scroll animation
+    if (!timeline) return;
     timeline
-      ?.to(currentRefs, {
-        yPercent: -100,
-        stagger,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: "bottom bottom",
-          end: "+=50%",
-          scrub: true,
-          onEnter: () => {
+      .fromTo(
+        currentRefs,
+        {
+          yPercent: 0,
+        },
+        {
+          yPercent: -100,
+          stagger: 0.1,
+          duration: 0.15,
+          onStart: () => {
             loopTl.pause();
             gsap.set(currentRefs, { scale: 1 });
           },
-          onLeaveBack: () => {
-            loopTl.restart();
+          onReverseComplete: () => {
+            loopTl.resume();
           },
         },
-      })
+        "stage1Start+=0.01"
+      )
       .fromTo(
         containerRef.current,
-        { scale: 1 },
         {
+          bottom: 0,
+          y: 0,
+        },
+        {
+          bottom: "50%",
+          yPercent: 100,
+          padding: 0,
           scale: 0.5,
-          top: "50%",
-          y: "-25%",
-          ease: "power2.inOut",
-          duration: 0.5,
-          scrollTrigger: {
-            trigger: containerRef.current,
-            start: "top top",
-            end: "bottom",
-            scrub: true,
-          },
-        }
+          // y: "-25%",
+          duration: 0.2, // Animation will take 20% of the timeline
+        },
+        "stage1Start+=0.05"
       );
 
     return () => {
       loopTl.kill();
     };
+    // eslint-disable-next-line
   }, [timeline, selectedIconGroup]);
 
   return (

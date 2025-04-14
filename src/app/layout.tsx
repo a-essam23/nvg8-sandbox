@@ -27,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${aeonik.className} ${oldschoolGrotesk.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${aeonik.className} ${oldschoolGrotesk.variable} antialiased bg-black`}
       >
         <Providers>{children}</Providers>
       </body>

@@ -3,22 +3,17 @@ import { create } from "zustand";
 type IIcon = {
   src: string;
   alt: string;
-  ref?: React.RefObject<HTMLDivElement | null>;
 };
 
 type HeroStore = {
   timeline: gsap.core.Timeline | null;
   setTimeline: (timeline: gsap.core.Timeline) => void;
   iconGroups: IIcon[][];
-  setIconGroupRefs: (
-    index: number,
-    refs: React.RefObject<HTMLElement | null | undefined>[]
-  ) => void;
   selectedIconGroup: number;
   setSelectedIconGroup: (index: number) => void;
 };
 
-export const useHeroStore = create<HeroStore>((set, get) => ({
+export const useHeroStore = create<HeroStore>((set) => ({
   timeline: null,
   setTimeline: (timeline) => set({ timeline }),
   iconGroups: [
@@ -37,16 +32,6 @@ export const useHeroStore = create<HeroStore>((set, get) => ({
       { src: "/icons/game-mobile.svg", alt: "mobile" },
     ],
   ],
-  setIconGroupRefs: (index, refs) => {
-    const iconGroups = get().iconGroups;
-    const updatedGroup = iconGroups[index].map((icon, i) => ({
-      ...icon,
-      ref: refs[i],
-    }));
-    const newIconGroups = [...iconGroups];
-    newIconGroups[index] = updatedGroup as IIcon[];
-    set({ iconGroups: newIconGroups });
-  },
   selectedIconGroup: 1,
   setSelectedIconGroup: (index) => set({ selectedIconGroup: index }),
 }));
