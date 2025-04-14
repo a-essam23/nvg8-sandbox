@@ -1,11 +1,12 @@
 ## Overview
 
-This project serves as a technical assessment focusing on implementing complex animations and transitions. It demonstrates:
+This project serves as a technical assessment focusing on implementing complex animations and transitions.
 
-- Advanced GSAP animations with ScrollTrigger
-- Multi-stage video scroll animations
-- Rive animations implementation
+## Preview
 
+Check out the live demo: [NVG8 Sandbox](https://nvg8-sandbox.vercel.app/)
+
+Source code: [GitHub Repository](https://github.com/a-essam23/nvg8-sandbox)
 
 ## Goals
 
@@ -20,6 +21,7 @@ This project serves as a technical assessment focusing on implementing complex a
 - Understand how Rive animations work
 - Basic Rive animations implementation
 
+### AI tools and Workflow improvements
 
 
 ## Getting Started
